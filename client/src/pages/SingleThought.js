@@ -45,4 +45,3 @@ const SingleThought = (props) => {
 };
 
 export default SingleThought;
-
