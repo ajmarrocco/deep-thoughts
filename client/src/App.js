@@ -43,28 +43,27 @@ function App() {
           <Header />
           <div className="container">
             <Routes>
-              <Route
-                path="/"
+              <Route index
                 element={<Home />}
               />
               <Route
-                path="/login"
+                path="login"
                 element={<Login />}
               />
               <Route
-                path="/signup"
+                path="signup"
                 element={<Signup />}
               />
               <Route
-                path="/profile/:username?"
+                path = "profile/:username"
                 element={<Profile />}
               />
               <Route
-                path="/thought/:id"
+                path="thought/:id"
                 element={<SingleThought />}
               />
               <Route
-                path="*"
+                exact path="*"
                 element={<NoMatch />}
               />
             </Routes>
