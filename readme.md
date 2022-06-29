@@ -1,4 +1,4 @@
-# Budget Tracker Starter Code
+# Deep Thoughts
 
 ## Table of Contents
 * [Description](#description)
