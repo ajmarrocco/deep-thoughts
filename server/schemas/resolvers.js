@@ -66,6 +66,7 @@ const resolvers = {
 
         await User.findByIdAndUpdate(
           { _id: context.user._id },
+          // adds id number to array
           { $push: { thoughts: thought._id } },
           { new: true }
         );
@@ -79,6 +80,7 @@ const resolvers = {
       if (context.user) {
         const updatedThought = await Thought.findOneAndUpdate(
           { _id: thoughtId },
+          // pushes reaction body and username from context that is through auth to array 
           { $push: { reactions: { reactionBody, username: context.user.username } } },
           { new: true, runValidators: true }
         );
