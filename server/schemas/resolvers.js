@@ -5,6 +5,7 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
+      // same data that needs to be accessible by all resolvers. Similar to what Redux does
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
@@ -18,6 +19,8 @@ const resolvers = {
     },
     users: async () => {
       return User.find()
+      // thoughts and friends are a part of user query type so this is why they are populated
+      // and aren't a part of the schema
         .select('-__v -password')
         .populate('thoughts')
         .populate('friends');
@@ -25,19 +28,27 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select('-__v -password')
+        // thoughts and friends are a part of user query type so this is why they are populated
+        // and aren't a part of the schema
         .populate('friends')
         .populate('thoughts');
     },
     thoughts: async (parent, { username }) => {
+      // accepts parameter as an object with username key or empty object
       const params = username ? { username } : {};
+      // don't need to populate reactions because the ReactionSchema is already a part of the Thought model
       return Thought.find(params).sort({ createdAt: -1 });
     },
+    // _id doesn't need to be an object, it just is for destructing purposes
     thought: async (parent, { _id }) => {
+      // don't need to populate reactions because the ReactionSchema is already a part of the Thought model
       return Thought.findOne({ _id });
     }
   },
 
   Mutation: {
+    // args is an object of all values passed into query or mutation as parameters.
+    // in this case username, email, password is args 
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
